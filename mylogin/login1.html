@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>login form</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <link rel="stylesheet" href="loginstyle.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="headline">
+        <h1>LOGIN IN TO OUR WEBSITE</h1>
+      </div>
+      <form class="form" id="loginForm" method="post" action="#">
+        <div class="login">
+          <div class="form-group">
+            <input type="text" id="email" placeholder="Email" required="" />
+          </div>
+          <div class="form-group">
+            <input
+              type="password"
+              id="password"
+              placeholder="Password"
+              required=""
+            />
+          </div>
+          <div class="forget-password">
+            <div class="check-box">
+              <input type="checkbox" id="checkbox" />
+              <label for="checkbox">Remember me</label>
+            </div>
+            <a href="#">Forget password?</a>
+          </div>
+          <button type="submit" class="btn">LOGIN</button>
+          <div class="account-exist">
+            Create New a account? <a href="#" id="signup">Signup</a>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault(); // Prevent the default form submission
+
+          // Get the values from the form
+          var email = document.getElementById("email").value;
+          var password = document.getElementById("password").value;
+
+          // Create a JavaScript object to hold the data
+          var data = {
+            email: email,
+            password: password,
+          };
+
+          // Convert the data to JSON format
+          var jsonData = JSON.stringify(data);
+          console.log(jsonData);
+
+          // Send the data to the backend using fetch API
+          fetch("http://localhost:3000/login", {
+            method: "POST",
+            body: jsonData,
+          })
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error("Network response was not ok");
+              }
+              return response.text();
+            })
+            .then((data) => {
+              console.log(jsonData); // You can handle the response data here
+            })
+            .catch((error) => {
+              console.error(
+                "There was a problem with the fetch operation:",
+                error
+              );
+            });
+        });
+    </script>
+  </body>
+</html>
